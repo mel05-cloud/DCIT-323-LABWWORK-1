@@ -74,7 +74,7 @@ const gradeToPoints = (grade) => {
   return map[grade] ?? null;
 };
 
-// LEVEL 1
+
 app.get("/api/students", (req, res) => res.json({ count: students.length, data: students }));
 app.get("/api/students/:id", (req, res) => { const s = students.find(s => s.id === req.params.id); if (!s) return notFound(res, "Student", req.params.id); res.json(s); });
 app.get("/api/instructors", (req, res) => res.json({ count: instructors.length, data: instructors }));
@@ -88,7 +88,7 @@ app.get("/api/assignments/:id", (req, res) => { const a = assignments.find(a => 
 app.get("/api/grades", (req, res) => res.json({ count: grades.length, data: grades }));
 app.get("/api/grades/:id", (req, res) => { const g = grades.find(g => g.id === req.params.id); if (!g) return notFound(res, "Grade", req.params.id); res.json(g); });
 
-// LEVEL 2
+
 app.get("/api/students/:id/enrollments", (req, res) => { const s = students.find(s => s.id === req.params.id); if (!s) return notFound(res, "Student", req.params.id); const result = enrollments.filter(e => e.studentId === req.params.id); res.json({ student: `${s.firstName} ${s.lastName}`, count: result.length, data: result }); });
 app.get("/api/students/:id/courses", (req, res) => { const s = students.find(s => s.id === req.params.id); if (!s) return notFound(res, "Student", req.params.id); const ids = enrollments.filter(e => e.studentId === req.params.id).map(e => e.courseId); res.json({ student: `${s.firstName} ${s.lastName}`, data: courses.filter(c => ids.includes(c.id)) }); });
 app.get("/api/courses/:id/students", (req, res) => { const c = courses.find(c => c.id === req.params.id); if (!c) return notFound(res, "Course", req.params.id); const ids = enrollments.filter(e => e.courseId === req.params.id).map(e => e.studentId); res.json({ course: c.name, data: students.filter(s => ids.includes(s.id)) }); });
@@ -96,7 +96,7 @@ app.get("/api/instructors/:id/courses", (req, res) => { const i = instructors.fi
 app.get("/api/courses/:id/assignments", (req, res) => { const c = courses.find(c => c.id === req.params.id); if (!c) return notFound(res, "Course", req.params.id); res.json({ course: c.name, data: assignments.filter(a => a.courseId === req.params.id) }); });
 app.get("/api/enrollments/:id/grades", (req, res) => { const e = enrollments.find(e => e.id === req.params.id); if (!e) return notFound(res, "Enrollment", req.params.id); res.json({ enrollmentId: req.params.id, data: grades.filter(g => g.enrollmentId === req.params.id) }); });
 
-// LEVEL 3
+
 app.get("/api/students/:id/gpa", (req, res) => {
   const s = students.find(s => s.id === req.params.id);
   if (!s) return notFound(res, "Student", req.params.id);
